@@ -1,0 +1,342 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Documentation",
+    "description": "This is an API Documentation",
+    "version": "1.0.0",
+    "contact": {
+      "email": "adachi.rodrigo@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "users",
+      "description": "User management"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["users"],
+        "summary": "Create a new user",
+        "requestBody": {
+          "required": true,
+          "description": "Mandatory fields for creating a user.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties":{
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Rodrigo Adachi",
+                  "email": "adachi.rodrigo@gmail.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Operation performed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties":{
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "id": "b6d35f2b-5dc7-4cdd-95ee-6e158c41cc38",
+                    "created_at": "2022-09-01T11:23:05.321Z",
+                    "updated_at": "2022-09-01T11:23:05.321Z",
+                    "admin": false,
+                    "name": "Rodrigo Adachi",
+                    "email": "adachi.rodrigo@gmail.com"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email is already being used.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties":{
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "This email is already in use."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["users"],
+        "summary": "Return all users",
+        "parameters": [
+          {
+            "required": true,
+            "in": "header",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation performed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties":{
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "string"
+                      },
+                      "updated_at": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "example": [
+                    {
+                      "id": "505da67f-b84d-4e06-9c87-6f72715c85a5",
+                      "created_at": "2022-09-01T11:46:45.834Z",
+                      "updated_at": "2022-09-01T11:46:45.834Z",
+                      "admin": false,
+                      "name": "Rodrigo",
+                      "email": "adachi.rodrigo@gmail.com"
+                    },
+                    {
+                      "id": "f2a49385-dcb0-47be-af01-912c7250925d",
+                      "created_at": "2022-09-01T11:46:58.287Z",
+                      "updated_at": "2022-09-01T11:47:20.053Z",
+                      "admin": true,
+                      "name": "Quezia",
+                      "email": "adachi.quezia@gmail.com"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User without permission or User not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties":{
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "You need to be an administrator to list all users."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["users"],
+        "summary": "Returns a specific user.",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "user_id",
+            "description": "User ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation performed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties":{
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "id": "505da67f-b84d-4e06-9c87-6f72715c85a5",
+                    "created_at": "2022-09-01T11:46:45.834Z",
+                    "updated_at": "2022-09-01T11:46:45.834Z",
+                    "admin": false,
+                    "name": "Rodrigo",
+                    "email": "adachi.rodrigo@gmail.com"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties":{
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User not found."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["users"],
+        "summary": "Turn admin into user.",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "user_id",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation performed successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties":{
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "id": "505da67f-b84d-4e06-9c87-6f72715c85a5",
+                    "created_at": "2022-09-01T11:46:45.834Z",
+                    "updated_at": "2022-09-01T11:46:45.834Z",
+                    "admin": true,
+                    "name": "Rodrigo",
+                    "email": "adachi.rodrigo@gmail.com"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties":{
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User not found."
+                  }
+                }
+              }
+            }
+          }
+        }
+       }
+    }
+  }
+}
